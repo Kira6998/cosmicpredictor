@@ -1,0 +1,320 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMIC PREDICTOR TOOL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
+        body {
+            background-color: #1e2a38;
+            color: #b0b0b0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container-wrapper {
+            transform: scale(0.75);
+            transform-origin: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+        .container {
+            background-color: #2a3b4c;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 400px;
+            position: relative;
+        }
+        .title {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            font-family: 'Courier Prime', monospace;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .grid div {
+            background-color: #3a4b5c;
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .grid div img {
+            display: none;
+            width: 50px;
+            height: 50px;
+        }
+        .bet-section, .mines-section, .seed-section {
+            margin-bottom: 20px;
+        }
+        .bet-section input, .mines-section select, .seed-section input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3a4b5c;
+            color: #fff;
+            font-size: 16px;
+        }
+        .bet-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .bet-section .bet-amount {
+            display: flex;
+            align-items: center;
+        }
+        .bet-section .bet-amount input {
+            width: 100%;
+            margin-right: 10px;
+        }
+        .bet-section .bet-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .bet-section .bet-buttons button {
+            background-color: #3a4b5c;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            color: #fff;
+            font-size: 16px;
+        }
+        .bet-section .predict-button {
+            background-color: #00ff00;
+            color: #fff;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            border: none;
+            position: relative;
+        }
+        .mines-section select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3a4b5c;
+            color: #fff;
+            font-size: 16px;
+        }
+        .seed-section input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3a4b5c;
+            color: #fff;
+            font-size: 16px;
+        }
+        @keyframes revealGem {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes loading {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(20px); }
+            100% { transform: translateX(0); }
+        }
+        .loading-animation {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 5px;
+        }
+        .loading-animation div {
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: loading 0.5s infinite;
+        }
+        .loading-animation div:nth-child(2) {
+            animation-delay: 0.25s;
+        }
+        .access-key-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            background-color: #1e2a38;
+        }
+        .access-key-container input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3a4b5c;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .access-key-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00ff00;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="access-key-container" id="access-key-container">
+        <input type="password" id="access-key-input" placeholder="Enter Access Key">
+        <button onclick="checkAccessKey()">Submit</button>
+    </div>
+    <div class="container-wrapper" id="container-wrapper" style="display: none;">
+        <div class="container">
+            <div class="title">COSMIC PREDICTOR TOOL</div>
+            <div class="grid">
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+            </div>
+            <div class="bet-section">
+                <div class="bet-amount">
+                    <input type="number" placeholder="Enter Bet Amount">
+                </div>
+            </div>
+            <div class="bet-section">
+                <button class="predict-button" onclick="predictGems()">
+                    <span class="predict-text">Predict</span>
+                    <div class="loading-animation">
+                        <div></div>
+                        <div></div>
+                    </div>
+                </button>
+            </div>
+            <div class="mines-section">
+                <select id="mines-select">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+            </div>
+            <div class="seed-section">
+                <input type="text" placeholder="Enter Active Server Seed Hashed">
+            </div>
+        </div>
+    </div>
+    <script>
+        const accessKey = '43a9d7f1c4b65e21';
+
+        function checkAccessKey() {
+            const userKey = document.getElementById('access-key-input').value;
+            if (userKey === accessKey) {
+                document.getElementById('access-key-container').style.display = 'none';
+                document.getElementById('container-wrapper').style.display = 'flex';
+            } else {
+                alert('Access Denied');
+            }
+        }
+
+        function predictGems() {
+            const gems = document.querySelectorAll('.grid div img');
+            const mines = document.getElementById('mines-select').value;
+            let numGems = mines <= 5 ? 5 : 3;
+            let delay = 0;
+
+            // Hide all gems initially
+            gems.forEach(gem => {
+                gem.style.display = 'none';
+            });
+
+            // Show loading animation and hide predict text
+            const predictButton = document.querySelector('.predict-button');
+            const loadingAnimation = document.querySelector('.loading-animation');
+            const predictText = document.querySelector('.predict-text');
+            predictButton.disabled = true;
+            loadingAnimation.style.display = 'flex';
+            predictText.style.display = 'none';
+
+            // Simulate loading for 5 seconds
+            setTimeout(() => {
+                // Hide loading animation and show predict text
+                loadingAnimation.style.display = 'none';
+                predictText.style.display = 'block';
+                predictButton.disabled = false;
+
+                // Generate random positions for gems
+                let positions = Array.from({ length: 25 }, (_, i) => i);
+                positions = shuffleArray(positions).slice(0, numGems);
+
+                // Reveal the predicted number of gems
+                positions.forEach((pos, index) => {
+                    setTimeout(() => {
+                        gems[pos].style.display = 'block';
+                        gems[pos].style.animation = 'revealGem 0.5s forwards';
+                    }, delay);
+                    delay += 500;
+                });
+            }, 5000);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+    </script>
+</body>
+</html>
