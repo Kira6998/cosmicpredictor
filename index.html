@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,13 +17,17 @@
             height: 100vh;
             margin: 0;
         }
+
         .container-wrapper {
+            transform: scale(0.75);
+            transform-origin: center;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100%;
             width: 100%;
         }
+
         .container {
             background-color: #2a3b4c;
             padding: 20px;
@@ -31,6 +36,7 @@
             width: 400px;
             position: relative;
         }
+
         .title {
             position: absolute;
             top: 10px;
@@ -40,6 +46,7 @@
             color: #fff;
             font-family: 'Courier Prime', monospace;
         }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -47,6 +54,7 @@
             margin-top: 40px;
             margin-bottom: 20px;
         }
+
         .grid div {
             background-color: #3a4b5c;
             width: 70px;
@@ -55,24 +63,22 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2rem;
-            color: #fff;
         }
-        .hidden {
-            background-color: #3a4b5c;
-            color: transparent;
+
+        .grid div .gem {
+            display: none;
+            font-size: 50px;
         }
-        .revealed {
-            background-color: #3a4b5c;
-            color: #ffd700; /* Gem color */
-            font-size: 2.5rem; /* Emoji size */
-            transition: 0.5s ease-in-out;
+
+        @keyframes revealGem {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
         }
-        .bet-section {
-            display: flex;
-            flex-direction: column;
+
+        .bet-section, .mines-section, .seed-section {
             margin-bottom: 20px;
         }
+
         .bet-section input, .mines-section select, .seed-section input {
             width: 100%;
             padding: 10px;
@@ -82,61 +88,53 @@
             color: #fff;
             font-size: 16px;
         }
+
         .bet-section .predict-button {
             background-color: #00ff00;
             color: #fff;
             font-weight: bold;
+            width: 100%;
             text-align: center;
             padding: 15px;
             border-radius: 10px;
             font-size: 18px;
             border: none;
-            cursor: pointer;
-        }
-        .mines-section select, .seed-section input {
-            margin-top: 10px;
-        }
-        @keyframes revealGem {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
+            position: relative;
         }
     </style>
 </head>
 <body>
-    <div class="container-wrapper" id="container-wrapper">
+    <div class="container-wrapper">
         <div class="container">
             <div class="title">COSMIC PREDICTOR TOOL</div>
             <div class="grid">
-                <!-- Initially all cells are hidden (empty) -->
-                <div class="hidden" id="cell-0"></div>
-                <div class="hidden" id="cell-1"></div>
-                <div class="hidden" id="cell-2"></div>
-                <div class="hidden" id="cell-3"></div>
-                <div class="hidden" id="cell-4"></div>
-                <div class="hidden" id="cell-5"></div>
-                <div class="hidden" id="cell-6"></div>
-                <div class="hidden" id="cell-7"></div>
-                <div class="hidden" id="cell-8"></div>
-                <div class="hidden" id="cell-9"></div>
-                <div class="hidden" id="cell-10"></div>
-                <div class="hidden" id="cell-11"></div>
-                <div class="hidden" id="cell-12"></div>
-                <div class="hidden" id="cell-13"></div>
-                <div class="hidden" id="cell-14"></div>
-                <div class="hidden" id="cell-15"></div>
-                <div class="hidden" id="cell-16"></div>
-                <div class="hidden" id="cell-17"></div>
-                <div class="hidden" id="cell-18"></div>
-                <div class="hidden" id="cell-19"></div>
-                <div class="hidden" id="cell-20"></div>
-                <div class="hidden" id="cell-21"></div>
-                <div class="hidden" id="cell-22"></div>
-                <div class="hidden" id="cell-23"></div>
-                <div class="hidden" id="cell-24"></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
+                <div><span class="gem">💎</span></div>
             </div>
-
             <div class="bet-section">
-                <input type="number" placeholder="Enter Bet Amount">
                 <button class="predict-button" onclick="predictGems()">Predict</button>
             </div>
             <div class="mines-section">
@@ -146,10 +144,6 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
                 </select>
             </div>
             <div class="seed-section">
@@ -160,34 +154,33 @@
 
     <script>
         function predictGems() {
-            const numCells = 25;
-            const gems = [];
-            for (let i = 0; i < numCells; i++) {
-                const cell = document.getElementById(`cell-${i}`);
-                cell.classList.remove('revealed');
-                cell.classList.add('hidden');
-                cell.innerHTML = '';  // Reset content
-            }
-
+            const gems = document.querySelectorAll('.grid .gem');
             const mines = document.getElementById('mines-select').value;
-            const numGemsToReveal = mines <= 5 ? 5 : 3;
+            let numGems = mines <= 5 ? 5 : 3;
+            let delay = 0;
 
-            let revealedSpots = new Set();
+            gems.forEach(gem => {
+                gem.style.display = 'none';
+            });
 
-            // Randomly select cells to reveal
-            while (revealedSpots.size < numGemsToReveal) {
-                const randomIndex = Math.floor(Math.random() * numCells);
-                if (!revealedSpots.has(randomIndex)) {
-                    revealedSpots.add(randomIndex);
+            let positions = Array.from({ length: 25 }, (_, i) => i);
+            positions = shuffleArray(positions).slice(0, numGems);
 
-                    const cell = document.getElementById(`cell-${randomIndex}`);
-                    setTimeout(() => {
-                        cell.innerHTML = '💎';  // Display gem emoji
-                        cell.classList.remove('hidden');
-                        cell.classList.add('revealed');
-                    }, 500 * revealedSpots.size); // Stagger the reveal
-                }
+            positions.forEach((pos, index) => {
+                setTimeout(() => {
+                    gems[pos].style.display = 'block';
+                    gems[pos].style.animation = 'revealGem 0.5s forwards';
+                }, delay);
+                delay += 500;
+            });
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
+            return array;
         }
     </script>
 </body>
