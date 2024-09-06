@@ -104,11 +104,10 @@
     </style>
 </head>
 <body>
-    <div class="container-wrapper">
+    <div class="container-wrapper" id="container-wrapper" style="display: none;">
         <div class="container">
             <div class="title">COSMIC PREDICTOR TOOL</div>
             <div class="grid">
-                <div><span class="gem">💎</span></div>
                 <div><span class="gem">💎</span></div>
                 <div><span class="gem">💎</span></div>
                 <div><span class="gem">💎</span></div>
@@ -144,6 +143,10 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
                 </select>
             </div>
             <div class="seed-section">
@@ -152,17 +155,35 @@
         </div>
     </div>
 
+    <div class="access-key-container" id="access-key-container">
+        <input type="password" id="access-key-input" placeholder="Enter Access Key">
+        <button onclick="checkAccessKey()">Submit</button>
+    </div>
+
     <script>
+        const accessKey = '64gh427s9yd';
+
+        function checkAccessKey() {
+            const userKey = document.getElementById('access-key-input').value;
+            if (userKey === accessKey) {
+                document.getElementById('access-key-container').style.display = 'none';
+                document.getElementById('container-wrapper').style.display = 'flex';
+            } else {
+                alert('Access Denied');
+            }
+        }
+
         function predictGems() {
             const gems = document.querySelectorAll('.grid .gem');
-            const mines = document.getElementById('mines-select').value;
-            let numGems = mines <= 5 ? 5 : 3;
+            const mines = parseInt(document.getElementById('mines-select').value);
+            let numGems = (mines >= 1 && mines <= 5) ? 5 : 3;
             let delay = 0;
 
             gems.forEach(gem => {
                 gem.style.display = 'none';
             });
 
+            // Simulate AI prediction logic and Stake mines algorithm
             let positions = Array.from({ length: 25 }, (_, i) => i);
             positions = shuffleArray(positions).slice(0, numGems);
 
