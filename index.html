@@ -57,11 +57,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        .grid div img {
-            display: none;
-            width: 50px;
-            height: 50px;
+            font-size: 2em;
         }
         .bet-section, .mines-section, .seed-section {
             margin-bottom: 20px;
@@ -196,31 +192,31 @@
         <div class="container">
             <div class="title">COSMIC PREDICTOR TOOL</div>
             <div class="grid">
-                <div><img src="https://banner2.cleanpng.com/20180207/gze/av27lm2fh.webp"></div>
-                <div><img src="https://banner2.cleanpng.com/20180207/gze/av27lm2fh.webp" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
-                <div><img src="https://stake.com/_app/immutable/assets/gem-none.Bcv6X_BH.svg" alt="Gem"></div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
+                <div>💎</div>
             </div>
             <div class="bet-section">
                 <div class="bet-amount">
@@ -268,52 +264,27 @@
         }
 
         function predictGems() {
-            const gems = document.querySelectorAll('.grid div img');
+            const gems = document.querySelectorAll('.grid div');
             const mines = document.getElementById('mines-select').value;
             let numGems = mines <= 5 ? 5 : 3;
             let delay = 0;
 
-            // Hide all gems initially
-            gems.forEach(gem => {
-                gem.style.display = 'none';
-            });
+            document.querySelector('.loading-animation').style.display = 'flex';
+            document.querySelector('.predict-text').textContent = '';
 
-            // Show loading animation and hide predict text
-            const predictButton = document.querySelector('.predict-button');
-            const loadingAnimation = document.querySelector('.loading-animation');
-            const predictText = document.querySelector('.predict-text');
-            predictButton.disabled = true;
-            loadingAnimation.style.display = 'flex';
-            predictText.style.display = 'none';
-
-            // Simulate loading for 5 seconds
             setTimeout(() => {
-                // Hide loading animation and show predict text
-                loadingAnimation.style.display = 'none';
-                predictText.style.display = 'block';
-                predictButton.disabled = false;
+                document.querySelector('.loading-animation').style.display = 'none';
+                document.querySelector('.predict-text').textContent = 'Predict';
+            }, 3000);
 
-                // Generate random positions for gems
-                let positions = Array.from({ length: 25 }, (_, i) => i);
-                positions = shuffleArray(positions).slice(0, numGems);
-
-                // Reveal the predicted number of gems
-                positions.forEach((pos, index) => {
+            gems.forEach((gem, index) => {
+                if (index < numGems) {
                     setTimeout(() => {
-                        gems[pos].style.display = 'block';
-                        gems[pos].style.animation = 'revealGem 0.5s forwards';
+                        gem.style.animation = 'revealGem 1s ease-in-out forwards';
                     }, delay);
-                    delay += 500;
-                });
-            }, 5000);
-        }
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
+                    delay += 1000;
+                }
+            });
         }
     </script>
 </body>
